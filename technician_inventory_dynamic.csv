@@ -1,7 +1,0 @@
-technician_id,name,active_shift,initial_latitude,initial_longitude,availability
-100,Technician_1,Shift_1,19.448294,-99.147176,Available
-101,Technician_2,Shift_1,19.414092,-99.141876,Available
-102,Technician_3,Shift_2,19.44618,-99.129497,Available
-103,Technician_4,Shift_2,19.421707,-99.128515,Available
-104,Technician_5,Shift_3,19.445142,-99.122422,Available
-105,Technician_6,Shift_3,19.421581,-99.113246,Available

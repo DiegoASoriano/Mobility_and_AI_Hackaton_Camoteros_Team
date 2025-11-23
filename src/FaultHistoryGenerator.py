@@ -3,10 +3,8 @@ import numpy as np
 import random
 from datetime import datetime, timedelta
 
-# ==============================================================================
 # 1. SIMULATION CONFIGURATION
 # These variables control the dataset scale, geography, and fault frequency.
-# ==============================================================================
 
 NUM_YEARS = 10                  # Number of years of historical data to generate.
 LINE_LENGTH_KM = 22.6           # Simulated total line length in kilometers.
@@ -38,9 +36,7 @@ LON_START = -99.15
 LAT_END = 19.35
 LON_END = -99.08
 
-# ==============================================================================
 # 2. DATA PREPARATION, FUNCTIONS, AND SHIFT LOGIC
-# ==============================================================================
 
 # Extract labels and weights for random.choices()
 error_codes = list(FAULT_TYPE_PROBABILITY.keys())
@@ -84,11 +80,8 @@ def get_shift_from_hour(hour):
     # For any time outside of operation
     return "OUT_OF_SERVICE" 
 
-
-# ==============================================================================
 # 3. FAULT HISTORY GENERATION (10 YEARS)
 # Iterates day by day to simulate random incident occurrence.
-# ==============================================================================
 
 start_date = datetime.strptime('2015-01-01', '%Y-%m-%d')
 end_date = start_date + timedelta(days=365 * NUM_YEARS + 2)
@@ -164,11 +157,9 @@ for current_date in date_list:
 
 df_fault_history = pd.DataFrame(all_faults)
 
-# ==============================================================================
 # 4. EXPORT
-# ==============================================================================
 
-file_name = 'fault_history_10years_with_shifts.csv'
+file_name = 'data/fault_history_10years_with_shifts.csv'
 df_fault_history.to_csv(file_name, index=False)
 
 print(f"\n Fault History successfully generated (includes the fault shift).")

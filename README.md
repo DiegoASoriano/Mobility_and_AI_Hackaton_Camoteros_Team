@@ -15,10 +15,16 @@ We use a Parallel Dispatch Strategy to convert the 30-minute bureaucratic delay 
 * **Language:** Python (for all core scripts)
 * **Data Processing:** Pandas, NumPy
 * **AI/Optimization:** Scikit-learn (Simple Regression/Optimization for assignment)
-* **Demo & MVP:** Streamlit / Gradio
+* **Demo & MVP:** Streamlit
 * **Version Control:** Git & GitHub
 
 ---
+
+## Project Structure
+To keep the project organized and professional, we use the following structure:
+* **src:** Contains the main application scripts (app.py, app_technician.py) and data generators.
+* **data:** Stores the generated datasets (.csv). Note: The apps read data from here automatically.
+* **models:** Contains the core AI logic and training algorithms (ai_logic_core.py).
 
 ## How to Run the Demo
 
@@ -32,8 +38,16 @@ To run the final solution, the Platform Engineer must execute the main applicati
     ```bash
     pip install -r requirements.txt
     ```
-3.  **Run the App:**
+
+3.  **Generate Synthetic Data:**
+    Before running the apps, ensure the database is populated. Run these two scripts to generate 10 years of fault history and the technician roster in the data/ folder:
+    ```bash
+    python src/FaultHistoryGenerator.py
+    python src/TechnicianInventoryGenerator.py
+    ```
+3.  **Run the Apps:**
     ```bash
     streamlit run src/app.py
+    streamlit run src/app_technician.py
     ```
     (Note: Paths may need to be adjusted based on the final file structure.)

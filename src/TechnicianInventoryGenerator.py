@@ -2,11 +2,9 @@ import pandas as pd
 import random
 import numpy as np
 
-# ==============================================================================
 # 1. TECHNICIAN INVENTORY CONFIGURATION
-# ==============================================================================
 
-# 🔑 KEY CONTROL VARIABLES 🔑
+#  KEY CONTROL VARIABLES 
 NUM_SHIFTS = 3              # Defines the number of shifts (MUST MATCH the variable in the fault file).
 TECHNICIANS_PER_SHIFT = 2   # Number of technicians assigned to each shift.
 
@@ -18,9 +16,7 @@ NUM_TECHNICIANS = NUM_SHIFTS * TECHNICIANS_PER_SHIFT
 lat_center = 19.4326
 lon_center = -99.1332
 
-# ==============================================================================
 # 2. DYNAMIC DATAFRAME GENERATION
-# ==============================================================================
 
 # Dynamic generation of shift names (Shift_1, Shift_2, etc.)
 shift_names = [f'Shift_{i+1}' for i in range(NUM_SHIFTS)]
@@ -52,15 +48,11 @@ technician_data = {
 
 df_technician_inventory = pd.DataFrame(technician_data)
 
-# ==============================================================================
 # 3. EXPORT
-# ==============================================================================
 
-file_name = 'technician_inventory_dynamic.csv'
+file_name = 'data/technician_inventory_dynamic.csv'
 df_technician_inventory.to_csv(file_name, index=False)
 
 print(f"Technician database generated with {NUM_SHIFTS} shifts.")
 print(f"Total technicians: {NUM_TECHNICIANS}")
 print(f"Saved to: {file_name}")
-
-# Now, with both databases ready, we can build the AI MODEL!
