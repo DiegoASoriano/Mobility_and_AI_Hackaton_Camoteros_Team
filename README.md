@@ -35,7 +35,9 @@ We use a Parallel Dispatch Strategy to convert the 30-minute bureaucratic delay 
   ![Dispatch](media/dispatch_system.jpg)
 
   ### Techician App
-  ![App](media/technician_app.jpg)
+  | Login Menu | Main Menu | Technician Route |
+  | :--- | :--- | :--- |
+  | ![Login](media/login_menu.jpg) | ![Main](media/main_menu.jpg) | ![Route](media/route.jpg) |
 ---
 
 ## Team
