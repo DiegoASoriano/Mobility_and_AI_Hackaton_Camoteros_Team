@@ -20,6 +20,32 @@ We use a Parallel Dispatch Strategy to convert the 30-minute bureaucratic delay 
 
 ---
 
+## Results
+
+- **Response Time Reduction:**  
+  By applying a parallel dispatch strategy, the system effectively eliminates the ~30-minute administrative delay by allowing technician travel to begin immediately after fault detection. In simulated scenarios, this results in the technician arriving at the fault location at the exact moment the formal dispatch order is released.
+
+- **Optimized Technician Assignment:**  
+  The system successfully assigns the most suitable technician based on geographic proximity and qualification level, reducing unnecessary travel distance and ensuring technical compatibility with the reported fault.
+
+- **Functional MVP Demonstration:**  
+  A fully operational Streamlit-based MVP demonstrates the complete workflow, including fault detection, technician selection, distance-based comparison, and real-time dispatch visualization using synthetic data.
+
+  ### Dispatch System
+  ![Dispatch](media/dispatch_system.jpg)
+
+  ### Techician App
+  ![App](media/technician_app.jpg)
+---
+
+## Team
+- Ángel García de la Calleja - Data Architect - [LinkedIn](https://www.linkedin.com/in/angelgarciaing/)
+- Adriana Solís García - AI Modeler- [LinkedIn](https://www.linkedin.com/in/adrianasgingeniera/)
+- Diego Armando Soriano Sánchez - Platform Engineer- [LinkedIn](https://www.linkedin.com/in/diego-soriano-eng/)
+- Jesús Manuel Ortiz Coeto - Full-Stack Engineer- [LinkedIn](https://www.linkedin.com/in/jes%C3%BAsmanuelortizcoeto/)
+
+---
+
 ## Project Structure
 To keep the project organized and professional, we use the following structure:
 * **src:** Contains the main application scripts (app.py, app_technician.py) and data generators.
