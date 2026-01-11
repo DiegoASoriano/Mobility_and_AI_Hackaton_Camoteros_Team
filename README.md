@@ -35,6 +35,7 @@ We use a Parallel Dispatch Strategy to convert the 30-minute bureaucratic delay 
   ![Dispatch](media/dispatch_system.jpg)
 
   ### Techician App
+  The following screenshots illustrate the main platform and the technician-facing application:
   | Login Menu | Main Menu | Technician Route |
   | :--- | :--- | :--- |
   | ![Login](media/login_menu.jpg) | ![Main](media/main_menu.jpg) | ![Route](media/route.jpg) |
@@ -42,9 +43,9 @@ We use a Parallel Dispatch Strategy to convert the 30-minute bureaucratic delay 
 
 ## Team
 - Ángel García de la Calleja - Data Architect - [LinkedIn](https://www.linkedin.com/in/angelgarciaing/)
-- Adriana Solís García - AI Modeler- [LinkedIn](https://www.linkedin.com/in/adrianasgingeniera/)
-- Diego Armando Soriano Sánchez - Platform Engineer- [LinkedIn](https://www.linkedin.com/in/diego-soriano-eng/)
-- Jesús Manuel Ortiz Coeto - Full-Stack Engineer- [LinkedIn](https://www.linkedin.com/in/jes%C3%BAsmanuelortizcoeto/)
+- Adriana Solís García - AI Modeler - [LinkedIn](https://www.linkedin.com/in/adrianasgingeniera/)
+- Diego Armando Soriano Sánchez - Platform Engineer - [LinkedIn](https://www.linkedin.com/in/diego-soriano-eng/)
+- Jesús Manuel Ortiz Coeto - Full-Stack Engineer - [LinkedIn](https://www.linkedin.com/in/jes%C3%BAsmanuelortizcoeto/)
 
 ---
 
@@ -73,7 +74,7 @@ To run the final solution, the Platform Engineer must execute the main applicati
     python src/FaultHistoryGenerator.py
     python src/TechnicianInventoryGenerator.py
     ```
-3.  **Run the Apps:**
+4.  **Run the Apps:**
     ```bash
     streamlit run src/app.py
     streamlit run src/app_technician.py
