@@ -1,7 +1,7 @@
 technician_id,name,active_shift,initial_latitude,initial_longitude,availability
-100,Technician_1,Shift_1,19.452269,-99.124079,Available
-101,Technician_2,Shift_1,19.444271,-99.11726,Available
-102,Technician_3,Shift_2,19.438072,-99.116601,Available
-103,Technician_4,Shift_2,19.422111,-99.137282,Available
-104,Technician_5,Shift_3,19.433946,-99.113636,Available
-105,Technician_6,Shift_3,19.414386,-99.11738,Available
+100,Technician_1,Shift_1,19.433798,-99.120409,Available
+101,Technician_2,Shift_1,19.449893,-99.144303,Available
+102,Technician_3,Shift_2,19.44513,-99.152341,Available
+103,Technician_4,Shift_2,19.448522,-99.114736,Available
+104,Technician_5,Shift_3,19.43203,-99.143061,Available
+105,Technician_6,Shift_3,19.444986,-99.132355,Available

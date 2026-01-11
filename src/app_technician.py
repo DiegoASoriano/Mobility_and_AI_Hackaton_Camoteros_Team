@@ -7,13 +7,19 @@ from math import radians, sin, cos, sqrt, atan2
 from sklearn.ensemble import RandomForestRegressor 
 from sklearn.preprocessing import LabelEncoder
 import time
+import os # <-- ¡Añadido para manejo de rutas!
+
+# ==============================================================================
+# CONFIGURACIÓN DE RUTA ABSOLUTA (¡AHORA MOVIDA DENTRO DE load_system_data!)
+# ==============================================================================
+# Estas variables ya no son globales, se definen en la función para mayor robustez
 
 # ==============================================================================
 # CONFIGURACIÓN DE PÁGINA MÓVIL
 # ==============================================================================
 st.set_page_config(
     page_title="Siemens FieldOps",
-    page_icon="🔒",
+    page_icon="", 
     initial_sidebar_state="collapsed"
 )
 
@@ -80,11 +86,20 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
 
 @st.cache_resource
 def load_system_data():
+    
+    # MUEVE LA DEFINICIÓN DE RUTA AQUÍ DENTRO
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+    DATA_PATH = os.path.join(BASE_DIR, '..', 'data') 
+    FAULT_FILE = os.path.join(DATA_PATH, 'fault_history_10years_with_shifts.csv')
+    TECH_FILE = os.path.join(DATA_PATH, 'technician_inventory_dynamic.csv')
+    
     try:
-        # CARGA DINÁMICA: Lee el archivo cada vez que se inicia para actualizar la lista
-        df_faults = pd.read_csv('fault_history_10years_with_shifts.csv')
-        df_techs = pd.read_csv('technician_inventory_dynamic.csv')
-    except:
+        # Usar rutas absolutas
+        df_faults = pd.read_csv(FAULT_FILE)
+        df_techs = pd.read_csv(TECH_FILE)
+    except Exception as e:
+        # En caso de fallo, mostrar el error de Python en la consola para depuración
+        print(f"Error fatal de carga de datos: {e}") 
         return None, None, None, None
 
     # Entrenamiento Ligero para la App
@@ -116,9 +131,9 @@ if 'job_active' not in st.session_state:
 model, le_day, df_faults, df_techs = load_system_data()
 
 if model is None:
-    st.error("⚠️ SERVER ERROR: Database connection failed.")
+    st.error("SERVER ERROR: Database connection failed.")
     st.stop()
-
+# ... (El resto del código de la interfaz es el mismo)
 # ==============================================================================
 # 3. VISTA 1: LOGIN SCREEN (PANTALLA DE INICIO)
 # ==============================================================================
@@ -143,7 +158,7 @@ if not st.session_state.logged_in:
     
     # --- FORMULARIO DE LOGIN DINÁMICO ---
     with st.form("login_form"):
-        st.write("#### 🆔 Identify Yourself")
+        st.write("#### Identify Yourself")
         
         # LISTA DINÁMICA: Se llena directo del CSV
         # Creamos una lista bonita tipo "ID: 100 - Technician_1"
@@ -154,7 +169,7 @@ if not st.session_state.logged_in:
         # Password simulada (siempre correcta para el hackathon)
         password = st.text_input("Access PIN", type="password", value="1234")
         
-        submit_btn = st.form_submit_button("🔓 LOGIN TO SYSTEM")
+        submit_btn = st.form_submit_button("LOGIN TO SYSTEM") 
         
         if submit_btn:
             # Extraer el ID del string seleccionado
@@ -192,7 +207,7 @@ else:
     if not st.session_state.job_active:
         st.markdown(f"""
         <div class="mobile-card" style="text-align: center; border-top: 5px solid #00ffcc;">
-            <h1 style="font-size: 50px;">🟢</h1>
+            <h1 style="font-size: 50px;"></h1>
             <h3>ONLINE</h3>
             <p>Connected to AI Dispatch Grid</p>
             <p style="color: #888; font-size: 12px;">GPS Location: {my_data['initial_latitude']}, {my_data['initial_longitude']}</p>
@@ -200,8 +215,8 @@ else:
         """, unsafe_allow_html=True)
         
         # Botón para simular la llegada de una notificación
-        st.markdown("### 📡 Actions")
-        if st.button("🔄 CHECK FOR ASSIGNMENTS"):
+        st.markdown("### Actions") 
+        if st.button("CHECK FOR ASSIGNMENTS"): 
             with st.spinner("Syncing with Control Center..."):
                 time.sleep(1.5)
                 
@@ -226,7 +241,7 @@ else:
                 st.session_state.dist = round(dist_km, 2)
                 st.session_state.job_active = True
                 
-                st.toast("⚠️ NEW PRIORITY INCIDENT RECEIVED!", icon="🚨")
+                st.toast("NEW PRIORITY INCIDENT RECEIVED!") 
                 time.sleep(0.5)
                 st.rerun()
 
@@ -237,9 +252,9 @@ else:
         # TARJETA DE ALERTA ROJA
         st.markdown(f"""
         <div class="mobile-card" style="border-left: 8px solid #ff4b4b; background-color: #2a1a1a;">
-            <h4 style="color: #ff4b4b; margin:0;">🚨 PRIORITY DISPATCH</h4>
+            <h4 style="color: #ff4b4b; margin:0;">PRIORITY DISPATCH</h4>
             <h1 style="font-size: 32px; margin: 10px 0;">{job['error_code']}</h1>
-            <p>📍 <b>Target:</b> {job['base_location']}</p>
+            <p> Target: {job['base_location']}</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -261,7 +276,7 @@ else:
         """, unsafe_allow_html=True)
         
         # MAPA DE NAVEGACIÓN (PYDECK)
-        st.write("**🗺️ Navigation Route**")
+        st.write("Navigation Route") 
         
         tech_loc = [my_data['initial_longitude'], my_data['initial_latitude']]
         fault_loc = [job['fault_longitude'], job['fault_latitude']]
@@ -291,16 +306,15 @@ else:
         # BOTONES DE ACCIÓN
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("🚀 GO"):
-                st.toast("Opening Maps...", icon="🗺️")
+            if st.button("GO"):
+                st.toast("Opening Maps...") 
         with c2:
-            if st.button("📞 CALL"):
-                st.toast("Calling HQ...", icon="📞")
+            if st.button("CALL"):
+                st.toast("Calling HQ...") 
                 
         st.write("")
-        if st.button("✅ COMPLETE JOB"):
+        if st.button("COMPLETE JOB"):
             st.session_state.job_active = False
-            st.balloons() # Efecto de celebración al terminar
             st.success("Report sent successfully!")
             time.sleep(2)
             st.rerun()
