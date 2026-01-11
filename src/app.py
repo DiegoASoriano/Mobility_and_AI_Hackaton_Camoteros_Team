@@ -8,13 +8,22 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
 import time
+import os
+
+# ==============================================================================
+# CONFIGURACIÓN DE RUTA ABSOLUTA (CORRECCIÓN IMPLEMENTADA)
+# ==============================================================================
+# El script se encuentra en 'src/app.py'. Usamos os para subir al directorio raíz y entrar en 'data'.
+# __file__ obtiene la ruta de este script, os.path.dirname sube a 'src', y '..' sube a 'Camoteros_hackaton'.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+DATA_PATH = os.path.join(BASE_DIR, '..', 'data') 
 
 # ==============================================================================
 # PAGE CONFIGURATION
 # ==============================================================================
 st.set_page_config(
     page_title="Siemens AI Dispatch",
-    page_icon="🚄",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,13 +52,15 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
 # ==============================================================================
 # 2. TRAINING (OPTIMIZED WITH CACHE)
 # ==============================================================================
-#  THIS LINE IS THE SPEED MAGIC 
-@st.cache_resource(show_spinner="🧠 Loading and Training Siemens AI...")
+#  THIS LINE IS THE SPEED MAGIC 
+@st.cache_resource(show_spinner="Loading and Training Siemens AI...")
 def load_and_train_model():
     
     # Load data inside cached function
     try:
-        df_faults = pd.read_csv('fault_history_10years_with_shifts.csv')
+        # CONSTRUCCIÓN DE RUTA ABSOLUTA
+        FAULT_FILE = os.path.join(DATA_PATH, 'fault_history_10years_with_shifts.csv')
+        df_faults = pd.read_csv(FAULT_FILE)
     except:
         return None, None, 0, 0, 0, None
 
@@ -152,7 +163,7 @@ def intelligent_dispatch_ml(model, le_day, df_technicians, current_fault):
 # USER INTERFACE
 # ==============================================================================
 
-st.title("🚇 SIEMENS | Intelligent Dispatch System")
+st.title("SIEMENS | Intelligent Dispatch System")
 st.markdown("### Operations Control Center - AI Powered")
 
 # --- INITIAL LOAD (ONLY ONCE) ---
@@ -160,32 +171,34 @@ st.markdown("### Operations Control Center - AI Powered")
 model_ai, day_encoder, mae, r2, n_trees, df_faults = load_and_train_model()
 
 if model_ai is None:
-    st.error("❌ CRITICAL ERROR: CSV files missing. Run data generators first.")
+    st.error("CRITICAL ERROR: CSV files missing. Run data generators first.")
     st.stop()
 
 # Load technicians
 try:
-    df_technicians = pd.read_csv('technician_inventory_dynamic.csv')
+    # CONSTRUCCIÓN DE RUTA ABSOLUTA
+    TECH_FILE = os.path.join(DATA_PATH, 'technician_inventory_dynamic.csv')
+    df_technicians = pd.read_csv(TECH_FILE)
 except:
     st.error("Technician inventory missing.")
     st.stop()
 
 # --- SHOW MODEL METRICS ALWAYS ---
-with st.expander("📊 View AI Model Diagnostics (Trained & Ready)", expanded=True):
+with st.expander("View AI Model Diagnostics (Trained & Ready)", expanded=True):
     m1, m2, m3 = st.columns(3)
     m1.metric("Precision (R²)", f"{round(r2 * 100, 2)}%")
     m2.metric("Error Margin", f"+/- {round(mae, 2)} min")
-    m3.metric("Status", "🟢 OPTIMAL" if mae < 5 else "🔴 REVIEW")
+    m3.metric("Status", "OPTIMAL" if mae < 5 else "REVIEW")
 
 # --- EXECUTION BUTTON ---
-if st.button("🔴 EXECUTE REAL-TIME INCIDENT SIMULATION"):
+if st.button("EXECUTE REAL-TIME INCIDENT SIMULATION"):
     
     # WE DO NOT TRAIN HERE ANYMORE, JUST USE THE LOADED AI
     
     # 1. INCIDENT SIMULATION
     test_fault = df_faults[df_faults['error_code'] != 'NO_INCIDENT'].sample(1).iloc[0].to_dict()
     
-    st.markdown("#### 🚨 INCOMING INCIDENT ALERT")
+    st.markdown("#### INCOMING INCIDENT ALERT")
     c1, c2, c3, c4 = st.columns(4)
     c1.error(f"**Fault:** {test_fault['error_code']}")
     c2.warning(f"**Location:** {test_fault['base_location']}")
@@ -200,13 +213,13 @@ if st.button("🔴 EXECUTE REAL-TIME INCIDENT SIMULATION"):
     col_left, col_right = st.columns([2, 3])
     
     with col_left:
-        st.markdown("### 🏆 AI DECISION")
+        st.markdown("### AI DECISION")
         st.success(f"**Assigned:** {result['Winner']}")
         st.info(f"**Arrival:** {result['ETA']} min")
         st.metric("TIME SAVED", f"{result['Savings']} min", delta="Optimized")
 
     with col_right:
-        st.markdown(f"#### 📡 Comparative Analysis ({test_fault['shift_at_fault']})")
+        st.markdown(f"#### Comparative Analysis ({test_fault['shift_at_fault']})")
         st.dataframe(
             result['Table'].style.highlight_min(axis=0, subset=['ETA (min)'], color='#1b4a2e'),
             use_container_width=True,
