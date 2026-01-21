@@ -1,6 +1,7 @@
 # Camoteros Mobility Hackathon Project: Parallel Emergency Dispatch AI
 
 ## Project Goal
+Solution made for the Mobility & AI Haackaton by Work in Austria, held in Mexico City, Nov 2025.
 Our solution tackles the critical 30-minute delay between a technical fault being detected and the manual dispatch order being formalized (C5 bureaucracy). We aim to use AI and data to dispatch the most efficient technician in parallel with the administrative process, ensuring the technician arrives at the fault location instantly when the formal order is released.
 
 ## The Solution: A Race Against Time
